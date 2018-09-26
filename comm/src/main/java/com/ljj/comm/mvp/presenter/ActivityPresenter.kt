@@ -10,7 +10,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 abstract class ActivityPresenter<T : IViewDelegate> : AppCompatActivity(), PresenterDelegate {
-
     protected lateinit var viewDelegate: T
         private set
 
@@ -66,7 +65,7 @@ abstract class ActivityPresenter<T : IViewDelegate> : AppCompatActivity(), Prese
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (viewDelegate.optionsMenuId != 0) {
-            menuInflater.inflate(viewDelegate!!.optionsMenuId, menu)
+            menuInflater.inflate(viewDelegate.optionsMenuId, menu)
         }
         return super.onCreateOptionsMenu(menu)
     }
@@ -97,15 +96,15 @@ abstract class ActivityPresenter<T : IViewDelegate> : AppCompatActivity(), Prese
         mDisposables.remove(d)
     }
 
-    override fun onRequestStart(disposable: Disposable) {
+    override fun onRequestStart(taskId: String?, disposable: Disposable) {
         viewDelegate.showLoadingView()
     }
 
-    override fun onFinish() {
+    override fun onFinish(taskId: String?) {
         viewDelegate.hideLoadView()
     }
 
-    override fun onRequestError(error: String) {
+    override fun onRequestError(taskId: String?, error: String) {
         viewDelegate.showNofityMessage(error)
     }
 }

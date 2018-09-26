@@ -118,7 +118,7 @@ class FeedDetailActivity : ActivityPresenter<FeedDetailViewDelegate>(), View.OnC
 
     companion object {
 
-        val FEED_ID = "feed_id"
+        const val FEED_ID = "feed_id"
     }
 
 

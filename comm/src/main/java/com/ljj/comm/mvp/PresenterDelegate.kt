@@ -11,10 +11,10 @@ import io.reactivex.disposables.Disposable
 
 interface PresenterDelegate {
 
-    fun onRequestStart(disposable: Disposable)
+    fun onRequestStart(taskId: String?, disposable: Disposable)
 
-    fun onFinish()
+    fun onFinish(taskId: String?)
 
-    fun onRequestError(error: String)
+    fun onRequestError(taskId: String?, error: String)
 
 }

@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers
 object RxUtils {
 
     //为解决单元测试不依赖android环境，默认不指明callbackScheduler 为AndroidSchedulers.mainThread()
-    var callbackScheduler = AndroidSchedulers.mainThread()
+    private var callbackScheduler = AndroidSchedulers.mainThread()
 
     fun <T> defaultSchedulers(): ObservableTransformer<T, T> {
         return ObservableTransformer { upstream ->
@@ -54,23 +54,27 @@ object RxUtils {
                 })
     }
 
-    fun <T> defaultCallback(observable: Observable<T>, presenterDelegate: PresenterDelegate, rxResult: RxResult<T>?): Disposable {
+    fun <T> defaultCallback(observable: Observable<T>, presenterDelegate: PresenterDelegate, rxResult: RxResult<T>): Disposable {
+        return defaultCallback(null, observable, presenterDelegate, rxResult)
+    }
+
+    fun <T> defaultCallback(taskId: String?, observable: Observable<T>, presenterDelegate: PresenterDelegate, rxResult: RxResult<T>): Disposable {
         return observable
                 .unsubscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .observeOn(callbackScheduler)
                 .doOnSubscribe { disposable ->
-                    presenterDelegate.onRequestStart(disposable)
+                    presenterDelegate.onRequestStart(taskId, disposable)
                 }
                 .doOnTerminate {
-                    presenterDelegate.onFinish()
+                    presenterDelegate.onFinish(taskId)
                 }
                 .subscribe({ t ->
-                    rxResult!!.doResult(t)
+                    rxResult.doResult(t)
                 }, { t ->
-                    presenterDelegate.onRequestError(t.message!!)
+                    presenterDelegate.onRequestError(taskId, t.message!!)
                 }, {
-                    rxResult!!.doCompleted()
+                    rxResult.doCompleted()
                 })
     }
 

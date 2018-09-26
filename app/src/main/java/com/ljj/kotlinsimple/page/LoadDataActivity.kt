@@ -15,6 +15,7 @@ import com.ljj.kotlinsimple.user.bean.UserBean
 import com.ljj.kotlinsimple.user.model.UserModel
 import com.ljj.kotlinsimple.util.SimpleSetting
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 
@@ -48,9 +49,8 @@ class LoadDataActivity : ActivityPresenter<LoadDataViewDelegate>() {
         finish()
     }
 
-
     private fun startLoadObservable() {
-        register(RxUtils.defaultCallback(Observable.zip(saveUsersObservable(AppDataConfig.createUsers(COUNT)),
+        register(RxUtils.defaultCallback(INIT_LOAD_DATA, Observable.zip(saveUsersObservable(AppDataConfig.createUsers(COUNT)),
                 getFeedObservable(AppDataConfig.createFeeds(COUNT)),
                 BiFunction<Long, FeedBean, FeedEntity> { id, feedBean ->
                     val feedEntity = FeedBean.createFeedEntity(feedBean)
@@ -82,8 +82,16 @@ class LoadDataActivity : ActivityPresenter<LoadDataViewDelegate>() {
         }
     }
 
+    override fun onRequestStart(taskId: String?, disposable: Disposable) {
+        if(INIT_LOAD_DATA == taskId){
+            return
+        }
+        super.onRequestStart(taskId, disposable)
+    }
+
     companion object {
 
-        private val COUNT = 9
+        private const val COUNT = 9
+        private const val INIT_LOAD_DATA: String = "init_load_data"
     }
 }

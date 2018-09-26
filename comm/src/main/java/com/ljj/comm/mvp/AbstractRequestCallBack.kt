@@ -9,14 +9,18 @@ import io.reactivex.disposables.Disposable
 abstract class AbstractRequestCallBack<T>(private val mPresenterDelegate: PresenterDelegate?) : RequestCallBack<T> {
 
     override fun onRequestStart(disposable: Disposable) {
-        mPresenterDelegate?.onRequestStart(disposable)
+        mPresenterDelegate?.onRequestStart(getTaskId(), disposable)
     }
 
     override fun onFinish() {
-        mPresenterDelegate?.onFinish()
+        mPresenterDelegate?.onFinish(getTaskId())
     }
 
     override fun onRequestError(error: String) {
-        mPresenterDelegate?.onRequestError(error)
+        mPresenterDelegate?.onRequestError(getTaskId(), error)
+    }
+
+    protected fun getTaskId(): String? {
+        return null
     }
 }
