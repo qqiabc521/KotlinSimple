@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.ljj.comm.mvp.IViewDelegate
-import com.ljj.comm.util.AppLog
 import com.ljj.comm.util.LoadingHelper
 
 abstract class BaseViewDelegate : IViewDelegate {
     override lateinit var rootView: View
         protected set
+
     private var destoryed = false
 
     abstract val rootLayoutId: Int
@@ -28,8 +28,8 @@ abstract class BaseViewDelegate : IViewDelegate {
         get() = this.javaClass.simpleName
 
     override fun create(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
-        val rooLayoutId = rootLayoutId
-        rootView = inflater.inflate(rooLayoutId, container, false)
+        val layoutId = rootLayoutId
+        rootView = inflater.inflate(layoutId, container, false)
     }
 
     override fun destory() {
@@ -52,7 +52,6 @@ abstract class BaseViewDelegate : IViewDelegate {
     }
 
     override fun showNofityMessage(message: String) {
-        AppLog.e(tag, message)
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show()
     }
 

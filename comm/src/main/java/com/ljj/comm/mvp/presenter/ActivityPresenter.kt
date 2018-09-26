@@ -34,7 +34,7 @@ abstract class ActivityPresenter<T : IViewDelegate> : AppCompatActivity(), Prese
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewDelegate.create(layoutInflater, null, savedInstanceState)
-        setContentView(viewDelegate!!.rootView)
+        setContentView(viewDelegate.rootView)
 
         onCreateBefore(savedInstanceState)
         initToolbar()
@@ -55,20 +55,17 @@ abstract class ActivityPresenter<T : IViewDelegate> : AppCompatActivity(), Prese
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (viewDelegate == null) {
-            try {
-                viewDelegate = delegateClass.newInstance()
-            } catch (e: InstantiationException) {
-                throw RuntimeException("create IDelegate error")
-            } catch (e: IllegalAccessException) {
-                throw RuntimeException("create IDelegate error")
-            }
-
+        try {
+            viewDelegate = delegateClass.newInstance()
+        } catch (e: InstantiationException) {
+            throw RuntimeException("create IDelegate error", e)
+        } catch (e: IllegalAccessException) {
+            throw RuntimeException("create IDelegate error", e)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        if (viewDelegate!!.optionsMenuId != 0) {
+        if (viewDelegate.optionsMenuId != 0) {
             menuInflater.inflate(viewDelegate!!.optionsMenuId, menu)
         }
         return super.onCreateOptionsMenu(menu)
