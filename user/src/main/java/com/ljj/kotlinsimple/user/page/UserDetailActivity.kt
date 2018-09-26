@@ -22,8 +22,12 @@ import io.reactivex.functions.Consumer
 @Route(path = "/user/activity/user_detail")
 class UserDetailActivity : ActivityPresenter<UserDetailViewDelegate>(), View.OnClickListener {
 
-    private val userAssistModel = ARouter.getInstance().navigation(UserAssistModel::class.java)
-    private val userModel = ARouter.getInstance().navigation(UserModel::class.java)
+    private val userAssistModel : UserAssistModel by lazy {
+        ARouter.getInstance().navigation(UserAssistModel::class.java)
+    }
+    private val userModel : UserModel by lazy {
+        ARouter.getInstance().navigation(UserModel::class.java)
+    }
 
     private var userBean: UserBean? = null
 

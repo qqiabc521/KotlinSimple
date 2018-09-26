@@ -21,8 +21,13 @@ import io.reactivex.schedulers.Schedulers
 
 class LoadDataActivity : ActivityPresenter<LoadDataViewDelegate>() {
 
-    private val feedModel = ARouter.getInstance().navigation(FeedModel::class.java)
-    private val userModel = ARouter.getInstance().navigation(UserModel::class.java)
+    private val feedModel : FeedModel by lazy {
+        ARouter.getInstance().navigation(FeedModel::class.java)
+    }
+
+    private val userModel : UserModel by lazy {
+        ARouter.getInstance().navigation(UserModel::class.java)
+    }
 
     override val delegateClass: Class<LoadDataViewDelegate>
         get() = LoadDataViewDelegate::class.java

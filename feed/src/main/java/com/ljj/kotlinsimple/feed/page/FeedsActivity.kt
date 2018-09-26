@@ -17,7 +17,9 @@ import java.util.*
 @Route(path = "/feed/activity/feeds")
 class FeedsActivity : ActivityPresenter<FeedsViewDelegate>() {
 
-    private var feedModel = ARouter.getInstance().navigation(FeedModel::class.java)
+    private val feedModel : FeedModel by lazy {
+        ARouter.getInstance().navigation(FeedModel::class.java)
+    }
 
     override val delegateClass: Class<FeedsViewDelegate>
         get() = FeedsViewDelegate::class.java

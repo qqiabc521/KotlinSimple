@@ -21,8 +21,13 @@ import io.reactivex.functions.Consumer
 class FeedDetailActivity : ActivityPresenter<FeedDetailViewDelegate>(), View.OnClickListener {
     private var feedBean: FeedBean? = null
 
-    private val userAssistModel = ARouter.getInstance().navigation(UserAssistModel::class.java)
-    private val feedModel = ARouter.getInstance().navigation(FeedModel::class.java)
+    private val userAssistModel : UserAssistModel by lazy {
+        ARouter.getInstance().navigation(UserAssistModel::class.java)
+    }
+
+    private val feedModel : FeedModel by lazy {
+        ARouter.getInstance().navigation(FeedModel::class.java)
+    }
 
     override val delegateClass: Class<FeedDetailViewDelegate>
         get() = FeedDetailViewDelegate::class.java
