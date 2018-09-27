@@ -8,7 +8,7 @@ import com.ljj.kotlinsimple.user.R
 import com.ljj.kotlinsimple.user.bean.UserBean
 import com.ljj.kotlinsimple.user.page.contract.UserDetailContract
 
-class UserDetailViewDelegate : BaseViewDelegate(),UserDetailContract.View {
+class UserDetailViewDelegate : BaseViewDelegate(), UserDetailContract.View {
 
     private lateinit var nickNameTV: TextView
     private lateinit var ageTV: TextView

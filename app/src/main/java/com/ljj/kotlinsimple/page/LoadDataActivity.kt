@@ -20,13 +20,13 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 
-class LoadDataActivity : ActivityPresenter<LoadDataContract.ViewDelegate>(),LoadDataContract.Presenter {
+class LoadDataActivity : ActivityPresenter<LoadDataContract.ViewDelegate>(), LoadDataContract.Presenter {
 
-    private val feedModel : FeedModel by lazy {
+    private val feedModel: FeedModel by lazy {
         ARouter.getInstance().navigation(FeedModel::class.java)
     }
 
-    private val userModel : UserModel by lazy {
+    private val userModel: UserModel by lazy {
         ARouter.getInstance().navigation(UserModel::class.java)
     }
 
@@ -71,8 +71,8 @@ class LoadDataActivity : ActivityPresenter<LoadDataContract.ViewDelegate>(),Load
             feedModel.saveFeed(feedEntity)
         }, this, object : RxUtils.RxResult<Long> {
             override fun doResult(id: Long) {
-                AppLog.e(tag, "saved feed" + id!!.toString())
-                viewDelegate.doLoadingProgress(id!!.toInt(), COUNT)
+                AppLog.e(tag, "saved feed" + id.toString())
+                viewDelegate.doLoadingProgress(id.toInt(), COUNT)
             }
 
             override fun doCompleted() {
@@ -95,7 +95,7 @@ class LoadDataActivity : ActivityPresenter<LoadDataContract.ViewDelegate>(),Load
     }
 
     override fun onRequestStart(taskId: String?, disposable: Disposable) {
-        if(INIT_LOAD_DATA == taskId){
+        if (INIT_LOAD_DATA == taskId) {
             return
         }
         super.onRequestStart(taskId, disposable)

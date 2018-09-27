@@ -12,9 +12,7 @@ import com.ljj.comm.mvp.RequestCallBack
 import com.ljj.comm.util.RxUtils
 import com.ljj.kotlinsimple.user.model.UserModel
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Function
 
 @Route(path = "/user/model/user")
 class UserModelImpl : UserModel, UserAssistModel {
@@ -84,13 +82,7 @@ class UserModelImpl : UserModel, UserAssistModel {
      * @return
      */
     override fun getUser(userId: Long): Observable<UserEntity> {
-        return Observable.just(userId).map(object : Function<Long, UserEntity> {
-
-            @Throws(Exception::class)
-            override fun apply(userId: Long): UserEntity {
-                return userEntityDao.load(userId)
-            }
-        })
+        return Observable.just(userId).map { userId -> userEntityDao.load(userId) }
     }
 
     /**
@@ -137,18 +129,15 @@ class UserModelImpl : UserModel, UserAssistModel {
      * @return
      */
     override fun updateUserRelation(userId: Long, relationship: Relationship): Observable<Boolean> {
-        return Observable.just(userId).flatMap(object : Function<Long, ObservableSource<UserEntity>> {
+        return Observable.just(userId).flatMap { userId ->
             /**
              * Apply some calculation to the input value and return some other value.
              * @param userId the input value
              * @return the output value
              * @throws Exception on error
              */
-            override fun apply(userId: Long): ObservableSource<UserEntity> {
-                return getUser(userId!!)
-            }
-
-        }).doAfterNext { userEntity -> userEntity.relationShip = relationship }.concatMap { userEntity -> updateUser(userEntity) }
+            getUser(userId!!)
+        }.doAfterNext { userEntity -> userEntity.relationShip = relationship }.concatMap { userEntity -> updateUser(userEntity) }
     }
 
     /**

@@ -31,7 +31,7 @@ class FeedAdapter(activity: Activity) : BaseRecyclerViewAdapter<FeedBrief>() {
             if (feedBrief == null) {
                 return
             }
-            mActivity.get()?: return
+            mActivity.get() ?: return
             titleTV.text = feedBrief.title
         }
 

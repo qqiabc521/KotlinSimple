@@ -6,7 +6,7 @@ import com.ljj.comm.mvp.contract.AdapterOnItemLisenter
 
 interface FeedsContract {
 
-    interface View : IViewDelegate{
+    interface View : IViewDelegate {
 
         /**
          * 设置Feed列表监听回调
@@ -19,7 +19,7 @@ interface FeedsContract {
         fun doFeedsResult(feedBriefs: List<FeedBrief>)
     }
 
-    interface Presenter{
+    interface Presenter {
 
         /**
          * 获得Feed列表数据

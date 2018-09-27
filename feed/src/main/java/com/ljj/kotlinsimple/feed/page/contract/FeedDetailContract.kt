@@ -6,7 +6,7 @@ import com.ljj.kotlinsimple.feed.bean.FeedBean
 
 interface FeedDetailContract {
 
-    interface View : IViewDelegate{
+    interface View : IViewDelegate {
 
         /**
          * 显示Feed详情信息
@@ -19,7 +19,7 @@ interface FeedDetailContract {
         fun doRelationship(relationship: Relationship)
     }
 
-    interface Presenter{
+    interface Presenter {
 
         /**
          * 请求Feed详情信息

@@ -31,14 +31,14 @@ abstract class BaseViewDelegate : IViewDelegate {
     private val tag: String
         get() = this.javaClass.simpleName
 
-    private var swipeBackHelper : SwipeBackActivityHelper? = null
+    private var swipeBackHelper: SwipeBackActivityHelper? = null
 
-    open fun enableSwipeBack() : Boolean = true
+    open fun enableSwipeBack(): Boolean = true
 
     override fun create(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) {
         val layoutId = rootLayoutId
         rootView = inflater.inflate(layoutId, container, false)
-        if(enableSwipeBack()){
+        if (enableSwipeBack()) {
             initSwipeBackHelper()
         }
     }
@@ -87,7 +87,7 @@ abstract class BaseViewDelegate : IViewDelegate {
         }
     }
 
-    fun <T : View> bindView(id: Int): T {
+    private fun <T : View> bindView(id: Int): T {
         return rootView.findViewById(id)
     }
 
@@ -99,17 +99,17 @@ abstract class BaseViewDelegate : IViewDelegate {
         return rootView.context as T
     }
 
-    private fun initSwipeBackHelper(){
+    private fun initSwipeBackHelper() {
         swipeBackHelper = SwipeBackActivityHelper(getActivity())
         swipeBackHelper?.onActivityCreate()
         getSwipeBackLayout()?.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT)
     }
 
-    private fun getSwipeBackLayout() : SwipeBackLayout? {
+    private fun getSwipeBackLayout(): SwipeBackLayout? {
         return swipeBackHelper?.swipeBackLayout
     }
 
-    protected fun setSwipeBackEnable(enable : Boolean){
+    protected fun setSwipeBackEnable(enable: Boolean) {
         getSwipeBackLayout()?.setEnableGesture(enable)
     }
 

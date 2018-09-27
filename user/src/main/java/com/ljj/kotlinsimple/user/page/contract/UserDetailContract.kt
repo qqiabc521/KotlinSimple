@@ -5,7 +5,7 @@ import com.ljj.kotlinsimple.user.bean.UserBean
 
 interface UserDetailContract {
 
-    interface View : IViewDelegate{
+    interface View : IViewDelegate {
         /**
          * 显示user信息
          */
@@ -22,7 +22,7 @@ interface UserDetailContract {
         fun doUnFollowResult()
     }
 
-    interface Presenter{
+    interface Presenter {
         /**
          * 请求用户详情
          */

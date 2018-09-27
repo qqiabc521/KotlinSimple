@@ -16,9 +16,9 @@ import io.reactivex.functions.Function
 import java.util.*
 
 @Route(path = "/feed/activity/feeds")
-class FeedsActivity : ActivityPresenter<FeedsContract.View>(),FeedsContract.Presenter,AdapterOnItemLisenter<FeedBrief> {
+class FeedsActivity : ActivityPresenter<FeedsContract.View>(), FeedsContract.Presenter, AdapterOnItemLisenter<FeedBrief> {
 
-    private val feedModel : FeedModel by lazy {
+    private val feedModel: FeedModel by lazy {
         ARouter.getInstance().navigation(FeedModel::class.java)
     }
 

@@ -32,7 +32,7 @@ class FeedsViewDelegate : BaseViewDelegate(), FeedsContract.View {
 
         mFeedAdapter = FeedAdapter(getActivity())
         mFeedAdapter.setOnItemClickListener { feedBrief, position ->
-            onItemOnItemLisenter!!.onClickItemLisenter(feedBrief,position)
+            onItemOnItemLisenter?.onClickItemLisenter(feedBrief, position)
         }
         mRecyclerView.adapter = mFeedAdapter
     }

@@ -127,7 +127,7 @@ class FeedDetailActivity : ActivityPresenter<FeedDetailContract.View>(), FeedDet
 
     companion object {
 
-        const val FEED_ID = "feed_id"
+        private const val FEED_ID = "feed_id"
     }
 
 

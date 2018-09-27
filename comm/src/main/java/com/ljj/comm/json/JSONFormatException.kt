@@ -14,10 +14,7 @@ class JSONFormatException : Exception {
 
     companion object {
 
-        /**
-         *
-         */
-        private val serialVersionUID = 6411745024910244643L
+        private const val serialVersionUID = 6411745024910244643L
     }
 
 }

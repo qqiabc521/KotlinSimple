@@ -20,7 +20,7 @@ abstract class AbstractRequestCallBack<T>(private val mPresenterDelegate: Presen
         mPresenterDelegate.onRequestError(getTaskId(), error)
     }
 
-    protected fun getTaskId(): String? {
+    protected open fun getTaskId(): String? {
         return null
     }
 }

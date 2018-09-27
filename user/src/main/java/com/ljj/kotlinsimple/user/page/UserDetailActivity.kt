@@ -21,12 +21,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 
 @Route(path = "/user/activity/user_detail")
-class UserDetailActivity : ActivityPresenter<UserDetailContract.View>(),UserDetailContract.Presenter, View.OnClickListener {
+class UserDetailActivity : ActivityPresenter<UserDetailContract.View>(), UserDetailContract.Presenter, View.OnClickListener {
 
-    private val userAssistModel : UserAssistModel by lazy {
+    private val userAssistModel: UserAssistModel by lazy {
         ARouter.getInstance().navigation(UserAssistModel::class.java)
     }
-    private val userModel : UserModel by lazy {
+    private val userModel: UserModel by lazy {
         ARouter.getInstance().navigation(UserModel::class.java)
     }
 
@@ -129,7 +129,7 @@ class UserDetailActivity : ActivityPresenter<UserDetailContract.View>(),UserDeta
     }
 
     companion object {
-        private val USER_ID = "user_id"
-        private val USER = "user"
+        private const val USER_ID = "user_id"
+        private const val USER = "user"
     }
 }
