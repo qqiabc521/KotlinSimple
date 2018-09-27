@@ -6,5 +6,11 @@ interface MainContract {
 
     interface View : IViewDelegate
 
-    interface Prestenter
+    interface Prestenter {
+
+        /**
+         * 进入Feed列表页面
+         */
+        fun toFeedsPage()
+    }
 }

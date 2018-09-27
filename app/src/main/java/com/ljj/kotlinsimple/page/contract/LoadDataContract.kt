@@ -4,7 +4,7 @@ import com.ljj.comm.mvp.IViewDelegate
 
 interface LoadDataContract {
 
-    interface ViewDelegate : IViewDelegate{
+    interface ViewDelegate : IViewDelegate {
 
         /**
          * 完成数据载入回调
@@ -17,12 +17,17 @@ interface LoadDataContract {
         fun doLoadingProgress(index: Int, count: Int)
     }
 
-    interface Presenter{
+    interface Presenter {
 
         /**
          * 载入初始化数据
          */
         fun loadData()
+
+        /**
+         * 进入主页
+         */
+        fun toHomePage()
     }
 
 }

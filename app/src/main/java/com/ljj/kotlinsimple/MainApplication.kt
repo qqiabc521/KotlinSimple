@@ -12,7 +12,4 @@ class MainApplication : BaseApplication() {
         MultiDex.install(base)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-    }
 }

@@ -8,9 +8,9 @@ import com.ljj.comm.util.PrefsManager
 
 object SimpleSetting {
 
-    val SETTING = "setting"
+    private const val SETTING = "setting"
 
-    val LOADED_DATA = "loaded_data"
+    private const val LOADED_DATA = "loaded_data"
 
     var isLoadedData: Boolean
         get() = PrefsManager.getBoolean(SETTING, LOADED_DATA, false)

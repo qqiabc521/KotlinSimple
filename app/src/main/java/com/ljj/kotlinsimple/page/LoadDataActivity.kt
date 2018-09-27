@@ -46,14 +46,16 @@ class LoadDataActivity : ActivityPresenter<LoadDataContract.ViewDelegate>(),Load
      */
     override fun loadData() {
         if (SimpleSetting.isLoadedData) {
-            loadCompleted()
+            toHomePage()
         } else {
             startLoadObservable()
         }
     }
 
-    private fun loadCompleted() {
-        viewDelegate.doLoadDataCompleted()
+    /**
+     * 进入主页
+     */
+    override fun toHomePage() {
         startActivity(Intent(this@LoadDataActivity, MainActivity::class.java))
         finish()
     }
@@ -75,7 +77,8 @@ class LoadDataActivity : ActivityPresenter<LoadDataContract.ViewDelegate>(),Load
 
             override fun doCompleted() {
                 SimpleSetting.isLoadedData = true
-                loadCompleted()
+                viewDelegate.doLoadDataCompleted()
+                toHomePage()
             }
         }))
     }

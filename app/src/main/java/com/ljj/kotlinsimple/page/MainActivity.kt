@@ -22,7 +22,15 @@ class MainActivity : ActivityPresenter<MainContract.View>(), MainContract.Preste
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.home_local_feeds -> ARouter.getInstance().build("/feed/activity/feeds").navigation(this)
+            R.id.home_local_feeds -> toFeedsPage()
         }
     }
+
+    /**
+     * 进入Feed列表页面
+     */
+    override fun toFeedsPage() {
+        ARouter.getInstance().build("/feed/activity/feeds").navigation(this)
+    }
+
 }
