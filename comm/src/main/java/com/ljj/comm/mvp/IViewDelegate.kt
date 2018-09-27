@@ -16,6 +16,8 @@ interface IViewDelegate {
 
     fun create(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
 
+    fun postCreate()
+
     fun initWidget()
 
     fun destory()

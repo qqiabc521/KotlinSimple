@@ -35,6 +35,11 @@ abstract class ActivityPresenter<T : IViewDelegate> : AppCompatActivity(), Prese
         onCreateAfter()
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        viewDelegate.postCreate()
+    }
+
     protected fun initToolbar() {
         val toolbar = viewDelegate.toolbar
         if (toolbar != null) {

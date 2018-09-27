@@ -12,4 +12,8 @@ class MainViewDelegate : BaseViewDelegate(),MainContract.View {
     override fun initWidget() {
 
     }
+
+    override fun enableSwipeBack(): Boolean {
+        return false
+    }
 }
