@@ -7,8 +7,10 @@ import com.ljj.comm.entity.Relationship
 import com.ljj.comm.mvp.view.BaseViewDelegate
 import com.ljj.kotlinsimple.feed.R
 import com.ljj.kotlinsimple.feed.bean.FeedBean
+import com.ljj.kotlinsimple.feed.page.contract.FeedDetailContract
 
-class FeedDetailViewDelegate : BaseViewDelegate() {
+class FeedDetailViewDelegate : BaseViewDelegate(), FeedDetailContract.View {
+
     private lateinit var contentTV: TextView
     private lateinit var onwerTV: TextView
     private lateinit var toUserBtn: Button
@@ -24,7 +26,10 @@ class FeedDetailViewDelegate : BaseViewDelegate() {
         followBtn = get(R.id.feed_detail_follow_user)
     }
 
-    fun doFeedResult(feedBean: FeedBean) {
+    /**
+     * 显示Feed详情信息
+     */
+    override fun doFeedResult(feedBean: FeedBean) {
         setActionBarTitle(feedBean.title)
 
         contentTV.text = feedBean.content
@@ -43,7 +48,10 @@ class FeedDetailViewDelegate : BaseViewDelegate() {
         }
     }
 
-    fun doRelationship(relationship: Relationship) {
+    /**
+     * 显示用户关系UI
+     */
+    override fun doRelationship(relationship: Relationship) {
         if (Relationship.FOLLOWED == relationship) {
             followBtn.text = "取消关注"
         } else if (Relationship.DEFAULT == relationship) {

@@ -6,12 +6,13 @@ import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.ljj.comm.mvp.presenter.ActivityPresenter
 import com.ljj.kotlinsimple.R
+import com.ljj.kotlinsimple.page.contract.MainContract
 import com.ljj.kotlinsimple.page.view.MainViewDelegate
 
-class MainActivity : ActivityPresenter<MainViewDelegate>(), View.OnClickListener {
+class MainActivity : ActivityPresenter<MainContract.View>(), MainContract.Prestenter, View.OnClickListener {
 
-    override val delegateClass: Class<MainViewDelegate>
-        get() = MainViewDelegate::class.java
+    override val getDelegateView: MainContract.View
+        get() = MainViewDelegate()
 
     override fun onCreateBefore(savedInstanceState: Bundle?) {}
 

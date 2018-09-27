@@ -10,24 +10,18 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 abstract class ActivityPresenter<T : IViewDelegate> : AppCompatActivity(), PresenterDelegate {
-    protected lateinit var viewDelegate: T
+    protected var viewDelegate: T
         private set
 
     private val mDisposables = CompositeDisposable()
 
-    protected abstract val delegateClass: Class<T>
+    protected abstract val getDelegateView: T
 
     val tag: String
         get() = this.javaClass.simpleName
 
     init {
-        try {
-            viewDelegate = delegateClass.newInstance()
-        } catch (e: InstantiationException) {
-            RuntimeException(e)
-        } catch (e: IllegalAccessException) {
-            RuntimeException(e)
-        }
+        viewDelegate = getDelegateView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,13 +48,7 @@ abstract class ActivityPresenter<T : IViewDelegate> : AppCompatActivity(), Prese
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        try {
-            viewDelegate = delegateClass.newInstance()
-        } catch (e: InstantiationException) {
-            throw RuntimeException("create IDelegate error", e)
-        } catch (e: IllegalAccessException) {
-            throw RuntimeException("create IDelegate error", e)
-        }
+        viewDelegate = getDelegateView
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -26,4 +26,6 @@ interface IViewDelegate {
 
     fun showNofityMessage(message: String)
 
+    fun setOnClickListenter(onClickListenter: View.OnClickListener, vararg ids: Int)
+
 }

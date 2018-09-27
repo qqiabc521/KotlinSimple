@@ -10,6 +10,7 @@ import com.ljj.comm.util.RxUtils
 import com.ljj.kotlinsimple.config.AppDataConfig
 import com.ljj.kotlinsimple.feed.bean.FeedBean
 import com.ljj.kotlinsimple.feed.model.FeedModel
+import com.ljj.kotlinsimple.page.contract.LoadDataContract
 import com.ljj.kotlinsimple.page.view.LoadDataViewDelegate
 import com.ljj.kotlinsimple.user.bean.UserBean
 import com.ljj.kotlinsimple.user.model.UserModel
@@ -19,7 +20,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 
-class LoadDataActivity : ActivityPresenter<LoadDataViewDelegate>() {
+class LoadDataActivity : ActivityPresenter<LoadDataContract.ViewDelegate>(),LoadDataContract.Presenter {
 
     private val feedModel : FeedModel by lazy {
         ARouter.getInstance().navigation(FeedModel::class.java)
@@ -29,8 +30,8 @@ class LoadDataActivity : ActivityPresenter<LoadDataViewDelegate>() {
         ARouter.getInstance().navigation(UserModel::class.java)
     }
 
-    override val delegateClass: Class<LoadDataViewDelegate>
-        get() = LoadDataViewDelegate::class.java
+    override val getDelegateView: LoadDataContract.ViewDelegate
+        get() = LoadDataViewDelegate()
 
     override fun onCreateBefore(savedInstanceState: Bundle?) {
 
@@ -40,7 +41,10 @@ class LoadDataActivity : ActivityPresenter<LoadDataViewDelegate>() {
         loadData()
     }
 
-    fun loadData() {
+    /**
+     * 载入初始化数据
+     */
+    override fun loadData() {
         if (SimpleSetting.isLoadedData) {
             loadCompleted()
         } else {

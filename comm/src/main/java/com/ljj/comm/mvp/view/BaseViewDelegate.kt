@@ -55,6 +55,15 @@ abstract class BaseViewDelegate : IViewDelegate {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show()
     }
 
+    override fun setOnClickListenter(onClickListenter: View.OnClickListener, vararg ids: Int) {
+        if (ids == null) {
+            return
+        }
+        for (id in ids) {
+            get<View>(id).setOnClickListener(onClickListenter)
+        }
+    }
+
     protected fun setActionBarTitle(title: String) {
         if (toolbar != null) {
             toolbar!!.title = title
@@ -71,14 +80,6 @@ abstract class BaseViewDelegate : IViewDelegate {
         return bindView(id)
     }
 
-    fun setOnClickListenter(onClickListenter: View.OnClickListener, vararg ids: Int) {
-        if (ids == null) {
-            return
-        }
-        for (id in ids) {
-            get<View>(id).setOnClickListener(onClickListenter)
-        }
-    }
 
     fun <T : AppCompatActivity> getActivity(): T {
         return rootView.context as T

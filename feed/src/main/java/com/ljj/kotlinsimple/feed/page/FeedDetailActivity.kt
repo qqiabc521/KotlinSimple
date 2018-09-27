@@ -13,24 +13,25 @@ import com.ljj.comm.util.RxUtils
 import com.ljj.kotlinsimple.feed.R
 import com.ljj.kotlinsimple.feed.bean.FeedBean
 import com.ljj.kotlinsimple.feed.model.FeedModel
+import com.ljj.kotlinsimple.feed.page.contract.FeedDetailContract
 import com.ljj.kotlinsimple.feed.page.view.FeedDetailViewDelegate
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 
-//@Route(path="/feed/activity/feed_detail")
-class FeedDetailActivity : ActivityPresenter<FeedDetailViewDelegate>(), View.OnClickListener {
+class FeedDetailActivity : ActivityPresenter<FeedDetailContract.View>(), FeedDetailContract.Presenter, View.OnClickListener {
+
     private var feedBean: FeedBean? = null
 
-    private val userAssistModel : UserAssistModel by lazy {
+    private val userAssistModel: UserAssistModel by lazy {
         ARouter.getInstance().navigation(UserAssistModel::class.java)
     }
 
-    private val feedModel : FeedModel by lazy {
+    private val feedModel: FeedModel by lazy {
         ARouter.getInstance().navigation(FeedModel::class.java)
     }
 
-    override val delegateClass: Class<FeedDetailViewDelegate>
-        get() = FeedDetailViewDelegate::class.java
+    override val getDelegateView: FeedDetailContract.View
+        get() = FeedDetailViewDelegate()
 
     override fun onCreateBefore(savedInstanceState: Bundle?) {
         register(RxBus.getDefault().register(UpdateRelationship::class.java, Consumer<UpdateRelationship> { updateRelationship ->
@@ -63,7 +64,10 @@ class FeedDetailActivity : ActivityPresenter<FeedDetailViewDelegate>(), View.OnC
         requestFeed(feedId)
     }
 
-    private fun requestFeed(feedId: Long) {
+    /**
+     * 请求Feed详情信息
+     */
+    override fun requestFeed(feedId: Long) {
         register(RxUtils.defaultCallback(feedModel.getFeed(feedId).map { feedEntity -> FeedBean(feedEntity) }, object : AbstractRequestCallBack<FeedBean>(this) {
             /**
              * 请求结果回调

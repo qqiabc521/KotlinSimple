@@ -15,12 +15,13 @@ import com.ljj.comm.util.RxUtils
 import com.ljj.kotlinsimple.user.R
 import com.ljj.kotlinsimple.user.bean.UserBean
 import com.ljj.kotlinsimple.user.model.UserModel
+import com.ljj.kotlinsimple.user.page.contract.UserDetailContract
 import com.ljj.kotlinsimple.user.page.view.UserDetailViewDelegate
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 
 @Route(path = "/user/activity/user_detail")
-class UserDetailActivity : ActivityPresenter<UserDetailViewDelegate>(), View.OnClickListener {
+class UserDetailActivity : ActivityPresenter<UserDetailContract.View>(),UserDetailContract.Presenter, View.OnClickListener {
 
     private val userAssistModel : UserAssistModel by lazy {
         ARouter.getInstance().navigation(UserAssistModel::class.java)
@@ -31,8 +32,8 @@ class UserDetailActivity : ActivityPresenter<UserDetailViewDelegate>(), View.OnC
 
     private var userBean: UserBean? = null
 
-    override val delegateClass: Class<UserDetailViewDelegate>
-        get() = UserDetailViewDelegate::class.java
+    override val getDelegateView: UserDetailContract.View
+        get() = UserDetailViewDelegate()
 
     override fun onCreateBefore(savedInstanceState: Bundle?) {
         register(RxBus.getDefault().register(UpdateRelationship::class.java, Consumer<UpdateRelationship> { updateRelationship ->
@@ -70,7 +71,10 @@ class UserDetailActivity : ActivityPresenter<UserDetailViewDelegate>(), View.OnC
         requestUserDetail(userId)
     }
 
-    fun requestUserDetail(userId: Long) {
+    /**
+     * 请求用户详情
+     */
+    override fun requestUserDetail(userId: Long) {
         register(RxUtils.defaultCallback(userModel.getUser(userId).map { userEntity -> UserBean(userEntity) }, object : AbstractRequestCallBack<UserBean>(this) {
             /**
              * 请求结果回调
@@ -84,21 +88,35 @@ class UserDetailActivity : ActivityPresenter<UserDetailViewDelegate>(), View.OnC
         }))
     }
 
+    /**
+     * 关注用户
+     */
+    override fun followUser() {
+        updateUserRelationship(userBean!!.id, Relationship.FOLLOWED)
+    }
+
+    /**
+     * 取消关注用户
+     */
+    override fun unFollowUser() {
+        updateUserRelationship(userBean!!.id, Relationship.DEFAULT)
+    }
+
     override fun onClick(v: View) {
         if (v.id == R.id.user_detail_follow_btn) {
             updateUserRelationship()
         }
     }
 
-    fun updateUserRelationship() {
+    private fun updateUserRelationship() {
         if (userBean == null) {
             return
         }
 
         if (Relationship.DEFAULT == userBean!!.relationship) {
-            updateUserRelationship(userBean!!.id, Relationship.FOLLOWED)
+            followUser()
         } else if (Relationship.FOLLOWED == userBean!!.relationship) {
-            updateUserRelationship(userBean!!.id, Relationship.DEFAULT)
+            unFollowUser()
         }
     }
 

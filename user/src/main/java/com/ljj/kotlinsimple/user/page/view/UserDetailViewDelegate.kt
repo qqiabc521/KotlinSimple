@@ -2,20 +2,20 @@ package com.ljj.kotlinsimple.user.page.view
 
 import android.widget.Button
 import android.widget.TextView
-
 import com.ljj.comm.entity.Relationship
 import com.ljj.comm.mvp.view.BaseViewDelegate
 import com.ljj.kotlinsimple.user.R
 import com.ljj.kotlinsimple.user.bean.UserBean
+import com.ljj.kotlinsimple.user.page.contract.UserDetailContract
 
-class UserDetailViewDelegate : BaseViewDelegate() {
+class UserDetailViewDelegate : BaseViewDelegate(),UserDetailContract.View {
 
-    private var nickNameTV: TextView? = null
-    private var ageTV: TextView? = null
-    private var emailTV: TextView? = null
-    private var phoneTV: TextView? = null
-    private var signTV: TextView? = null
-    private var followBtn: Button? = null
+    private lateinit var nickNameTV: TextView
+    private lateinit var ageTV: TextView
+    private lateinit var emailTV: TextView
+    private lateinit var phoneTV: TextView
+    private lateinit var signTV: TextView
+    private lateinit var followBtn: Button
 
     override val rootLayoutId: Int
         get() = R.layout.activity_user
@@ -29,18 +29,6 @@ class UserDetailViewDelegate : BaseViewDelegate() {
         followBtn = get(R.id.user_detail_follow_btn)
     }
 
-    fun doUserDetail(userBean: UserBean) {
-        setActionBarTitle(userBean.name!!)
-
-        nickNameTV!!.text = userBean.name
-        ageTV!!.text = userBean.age.toString() + "岁"
-        emailTV!!.text = userBean.email
-        phoneTV!!.text = userBean.phoneNumber
-        signTV!!.text = userBean.description
-
-        doRelationship(userBean.relationship)
-    }
-
     private fun doRelationship(relationship: Relationship) {
         if (Relationship.FOLLOWED == relationship) {
             doFollowedResult()
@@ -49,11 +37,32 @@ class UserDetailViewDelegate : BaseViewDelegate() {
         }
     }
 
-    fun doFollowedResult() {
-        followBtn!!.text = "取消关注"
+    /**
+     * 显示user信息
+     */
+    override fun doUserDetail(userBean: UserBean) {
+        setActionBarTitle(userBean.name!!)
+
+        nickNameTV.text = userBean.name
+        ageTV.text = userBean.age.toString() + "岁"
+        emailTV.text = userBean.email
+        phoneTV.text = userBean.phoneNumber
+        signTV.text = userBean.description
+
+        doRelationship(userBean.relationship)
     }
 
-    fun doUnFollowResult() {
-        followBtn!!.text = "关注"
+    /**
+     * 更新关注UI
+     */
+    override fun doFollowedResult() {
+        followBtn.text = "取消关注"
+    }
+
+    /**
+     * 更新未关注UI
+     */
+    override fun doUnFollowResult() {
+        followBtn.text = "关注"
     }
 }
